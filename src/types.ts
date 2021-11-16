@@ -35,6 +35,7 @@ export type Question = {
     question: string
     answer: string
     comments: string
+    authors: string
 }
 
 export type QuestionAPIResponse = {

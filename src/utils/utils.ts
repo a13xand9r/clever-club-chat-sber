@@ -18,6 +18,7 @@ export const deleteNotValidQuestions = (session: ScenarioSession) => {
                 item.question.includes('pic') ||
                 item.question.includes('jpg') ||
                 item.question.includes('gif') ||
+                item.question.includes('1. ') ||
                 item.question.includes('[') ||
                 item.question.includes(']')
             ){
