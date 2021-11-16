@@ -4,15 +4,15 @@
       "matchers": [
         {
           "type": "phrase",
-          "rule": "Да"
+          "rule": "да"
         },
         {
           "type": "phrase",
-          "rule": "верно"
+          "rule": "начнем"
         },
         {
           "type": "phrase",
-          "rule": "правильно"
+          "rule": "начать"
         }
       ],
       "variables": {}
@@ -22,44 +22,44 @@
         {
           "type": "phrase",
           "rule": "нет"
-        },
-        {
-          "type": "phrase",
-          "rule": "неверно"
-        },
-        {
-          "type": "phrase",
-          "rule": "неправильно"
         }
       ],
       "variables": {}
     },
-    "/Позвони": {
+    "/Следующий": {
       "matchers": [
         {
           "type": "phrase",
-          "rule": "позвони еще раз"
+          "rule": "следующий"
+        },
+        {
+          "type": "phrase",
+          "rule": "дальше"
+        },
+        {
+          "type": "phrase",
+          "rule": "ещё"
+        },
+        {
+          "type": "phrase",
+          "rule": "далее"
+        },
+        {
+          "type": "phrase",
+          "rule": "следующий вопрос"
         }
       ],
       "variables": {}
     },
-    "/Другой номер": {
+    "/Ответ": {
       "matchers": [
         {
           "type": "phrase",
-          "rule": "другой номер"
+          "rule": "ответ"
         },
         {
           "type": "phrase",
-          "rule": "другой телефон"
-        },
-        {
-          "type": "phrase",
-          "rule": "поменяй телефон"
-        },
-        {
-          "type": "phrase",
-          "rule": "поменяй номер"
+          "rule": "сдаюсь"
         }
       ],
       "variables": {}

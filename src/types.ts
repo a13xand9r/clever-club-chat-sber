@@ -19,8 +19,32 @@ export interface ScenarioIntentsVariables extends SaluteRequestVariable {
 }
 
 export interface ScenarioSession extends Record<string, unknown>{
-
+    questionsList?: Question[]
+    currentQuestion?: Question
+    isFirstQuestion?: boolean
 }
 
 export type ScenarioRequest = SaluteRequest<ScenarioIntentsVariables, ScenarioAppState>
 export type ScenarioHandler = SaluteHandler<ScenarioRequest, ScenarioSession>
+
+export type Question = {
+    id: string
+    tour: string
+    number: number
+    type: string
+    question: string
+    answer: string
+    comments: string
+}
+
+export type QuestionAPIResponse = {
+    'hydra:member': Question[]
+    'hydra:totalItems': number,
+    'hydra:view': {
+        '@id': string,
+        '@type': string,
+        'hydra:first': string,
+        'hydra:last': string,
+        'hydra:next': string
+    }
+}
