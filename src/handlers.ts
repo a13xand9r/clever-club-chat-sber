@@ -8,7 +8,8 @@ import stringSimilarity from 'string-similarity'
 require('dotenv').config()
 
 
-export const runAppHandler: ScenarioHandler = ({ req, res }, dispatch) => {
+export const runAppHandler: ScenarioHandler = ({ req, res, session }, dispatch) => {
+    session.isFirstQuestion = true
     dispatch && dispatch(['StartApp'])
 }
 
@@ -19,8 +20,6 @@ export const startAppHandler: ScenarioHandler = ({ req, res, session }) => {
     res.setPronounceText(responseText)
     res.appendSuggestions(['Да', 'Нет'])
     res.setAutoListening(true)
-
-    session.isFirstQuestion = true
 }
 
 export const noMatchHandler: ScenarioHandler = ({ req, res }) => {
@@ -28,11 +27,13 @@ export const noMatchHandler: ScenarioHandler = ({ req, res }) => {
     const responseText = keyset('404')
     res.appendBubble(responseText)
     res.setPronounceText(responseText)
+    res.appendSuggestions(['Хватит'])
 }
 export const helpHandler: ScenarioHandler = ({ req, res }, dispatch) => {
     const keyset = req.i18n(dictionary)
     res.appendBubble(keyset('Помощь'))
     res.setPronounceText(keyset('Помощь'))
+    res.appendSuggestions(['Хватит'])
     dispatch && dispatch(['AnswerWait'])
 }
 
