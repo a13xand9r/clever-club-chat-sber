@@ -14,7 +14,7 @@ import {
     SaluteRequest
 } from '@salutejs/scenario'
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory'
-import { answerHandler, noMatchHandler, questionHandler, rightAnswerHandler, runAppHandler, startAppHandler } from './handlers'
+import { answerHandler, helpHandler, noMatchHandler, questionHandler, rightAnswerHandler, runAppHandler, startAppHandler } from './handlers'
 import model from './intents.json'
 require('dotenv').config()
 
@@ -43,6 +43,10 @@ const userScenario = createUserScenario<ScenarioRequest>({
     Question: {
         match: intent('/Следующий', {confidence: 0.4}),
         handle: questionHandler
+    },
+    Help: {
+        match: intent('/Помощь', {confidence: 0.4}),
+        handle: helpHandler
     },
     AnswerWait: {
         match: () => false,

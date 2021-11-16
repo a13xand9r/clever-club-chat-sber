@@ -1,5 +1,30 @@
 {
   "intents": {
+    "/Помощь": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "помощь"
+        },
+        {
+          "type": "phrase",
+          "rule": "справка"
+        },
+        {
+          "type": "phrase",
+          "rule": "инструкция"
+        },
+        {
+          "type": "phrase",
+          "rule": "как играть"
+        },
+        {
+          "type": "phrase",
+          "rule": "как отвечать"
+        }
+      ],
+      "variables": {}
+    },
     "/Да": {
       "matchers": [
         {

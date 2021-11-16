@@ -29,6 +29,11 @@ export const noMatchHandler: ScenarioHandler = ({ req, res }) => {
     res.appendBubble(responseText)
     res.setPronounceText(responseText)
 }
+export const helpHandler: ScenarioHandler = ({ req, res }) => {
+    const keyset = req.i18n(dictionary)
+    res.appendBubble(keyset('Помощь'))
+    res.setPronounceText(keyset('Помощь'))
+}
 
 export const questionHandler: ScenarioHandler = async ({ req, res, session }, dispatch) => {
     const keyset = req.i18n(dictionary)
@@ -49,7 +54,7 @@ export const questionHandler: ScenarioHandler = async ({ req, res, session }, di
     console.log('currentQuestion', session.currentQuestion)
 
     res.setPronounceText(`${session.isFirstQuestion ? 'Первый вопрос:\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n` : ''}${session.currentQuestion?.question}`)
-    res.appendBubble(`${session.isFirstQuestion ? 'Первый вопрос:\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n` : ''}${changeBrackets(session.currentQuestion?.question as string)}`)
+    res.appendBubble(`${session.isFirstQuestion ? 'Первый вопрос:\n\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n\n` : ''}${changeBrackets(session.currentQuestion?.question as string)}`)
     res.appendSuggestions(['Ответ', 'Хватит'])
 
     session.isFirstQuestion = false
@@ -76,7 +81,7 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
                 comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
-        } else if (similarity <= 0.65 && similarity > 0.4){
+        } else if (similarity <= 0.65 && similarity > 0.3){
             responseText = keyset('Вроде верно', {
                 answer: session.currentQuestion.answer.trim(),
                 comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
