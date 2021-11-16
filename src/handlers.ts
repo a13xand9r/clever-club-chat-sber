@@ -29,15 +29,14 @@ export const noMatchHandler: ScenarioHandler = ({ req, res }) => {
     res.appendBubble(responseText)
     res.setPronounceText(responseText)
 }
-export const helpHandler: ScenarioHandler = ({ req, res }) => {
+export const helpHandler: ScenarioHandler = ({ req, res }, dispatch) => {
     const keyset = req.i18n(dictionary)
     res.appendBubble(keyset('Помощь'))
     res.setPronounceText(keyset('Помощь'))
+    dispatch && dispatch(['AnswerWait'])
 }
 
 export const questionHandler: ScenarioHandler = async ({ req, res, session }, dispatch) => {
-    const keyset = req.i18n(dictionary)
-
     if (session.questionsList?.length){
         session.questionsList = session.questionsList?.filter((_, index) => index !== 0)
         session.currentQuestion = session.questionsList[0]
@@ -55,7 +54,7 @@ export const questionHandler: ScenarioHandler = async ({ req, res, session }, di
 
     res.setPronounceText(`${session.isFirstQuestion ? 'Первый вопрос:\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n` : ''}${session.currentQuestion?.question}`)
     res.appendBubble(`${session.isFirstQuestion ? 'Первый вопрос:\n\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n\n` : ''}${changeBrackets(session.currentQuestion?.question as string)}`)
-    res.appendSuggestions(['Ответ', 'Хватит'])
+    res.appendSuggestions(['Ответ', 'Помощь', 'Хватит'])
 
     session.isFirstQuestion = false
 

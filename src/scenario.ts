@@ -62,6 +62,10 @@ const userScenario = createUserScenario<ScenarioRequest>({
                 },
                 handle: rightAnswerHandler,
             },
+            Help: {
+                match: intent('/Помощь', {confidence: 0.4}),
+                handle: helpHandler
+            },
             Answer: {
                 match: (req) => !!req.message.original_text,
                 handle: answerHandler

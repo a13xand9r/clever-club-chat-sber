@@ -36,7 +36,8 @@ export const changeBrackets = (text: string) => {
             textArr[i + 1] === ' ' ||
             textArr[i + 1] === '.' ||
             textArr[i + 1] === ',' ||
-            textArr[i + 1] === ':'
+            textArr[i + 1] === ':' ||
+            textArr[i + 1] === ';'
         )) textArr[i] = '»'
         if (textArr[i] === '\"' && (i === 0 || textArr[i - 1] === ' ')) textArr[i] = '«'
     }
