@@ -77,13 +77,13 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
     if (session.currentQuestion) {
         if (similarity > 0.65) {
             responseText = keyset('Верно', {
-                answer: session.currentQuestion.answer.trim(),
+                answer: changeBrackets(session.currentQuestion.answer.trim()),
                 comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
         } else if (similarity <= 0.65 && similarity > 0.3){
             responseText = keyset('Вроде верно', {
-                answer: session.currentQuestion.answer.trim(),
+                answer: changeBrackets(session.currentQuestion.answer.trim()),
                 comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
@@ -100,7 +100,7 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
 export const rightAnswerHandler: ScenarioHandler = ({ req, res, session }, dispatch) => {
     const keyset = req.i18n(dictionary)
     let responseText = keyset('Правильный ответ', {
-        answer: session.currentQuestion?.answer.trim(),
+        answer: changeBrackets(session.currentQuestion?.answer.trim() as string),
         comment: session.currentQuestion?.comments
             ? `\n\n${changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))}`
             : ''

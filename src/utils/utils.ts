@@ -53,6 +53,7 @@ export const changeBrackets = (text: string) => {
     let textArr = text.split('')
     for (let i = 0; i < textArr.length; i++) {
         if (textArr[i] === '\"' && (
+            i === textArr.length - 1 ||
             textArr[i + 1] === ' ' ||
             textArr[i + 1] === '.' ||
             textArr[i + 1] === ',' ||
