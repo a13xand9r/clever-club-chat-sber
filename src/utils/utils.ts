@@ -10,7 +10,7 @@ export function getRandomNumberFromRange(range1: number, range2: number) {
 }
 
 export const deleteNotValidQuestions = (session: ScenarioSession) => {
-    if (session.questionsList){
+    if (session.questionsList) {
         session.questionsList = session.questionsList.filter((item, index) => {
             if (
                 item.question.includes('<') ||
@@ -21,10 +21,23 @@ export const deleteNotValidQuestions = (session: ScenarioSession) => {
                 item.question.includes('1. ') ||
                 item.question.includes('[') ||
                 item.question.includes(']')
-            ){
+            ) {
                 console.log('question deleted', item.question, index)
                 return false
-            } else return true
+            }
+            if (
+                item.comments && (
+                    item.comments.includes('<') ||
+                    item.comments.includes('>') ||
+                    item.comments.includes('pic') ||
+                    item.comments.includes('jpg') ||
+                    item.comments.includes('gif')
+                )
+            ) {
+                console.log('comment deleted', item.comments, index)
+                return false
+            }
+            return true
         })
     }
 }

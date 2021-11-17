@@ -101,7 +101,9 @@ export const rightAnswerHandler: ScenarioHandler = ({ req, res, session }, dispa
     const keyset = req.i18n(dictionary)
     let responseText = keyset('Правильный ответ', {
         answer: session.currentQuestion?.answer.trim(),
-        comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
+        comment: session.currentQuestion?.comments
+            ? `\n\n${changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))}`
+            : ''
     })
     res.setPronounceText(responseText)
     res.appendBubble(responseText)
