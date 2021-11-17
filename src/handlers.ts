@@ -53,8 +53,8 @@ export const questionHandler: ScenarioHandler = async ({ req, res, session }, di
     }
     console.log('currentQuestion', session.currentQuestion)
 
-    res.setPronounceText(`${session.isFirstQuestion ? 'Первый вопрос:\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n` : ''}${session.currentQuestion?.question}`)
-    res.appendBubble(`${session.isFirstQuestion ? 'Первый вопрос:\n\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n\n` : ''}${changeBrackets(session.currentQuestion?.question as string)}`)
+    res.setPronounceText(`${session.isFirstQuestion ? 'Первый вопрос:\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n` : ''}${deleteEnters(session.currentQuestion?.question as string)}`)
+    res.appendBubble(`${session.isFirstQuestion ? 'Первый вопрос:\n\n' : ''}${session.currentQuestion?.authors ? `Автор вопроса — ${session.currentQuestion?.authors}.\n\n` : ''}${deleteEnters(changeBrackets(session.currentQuestion?.question as string))}`)
     res.appendSuggestions(['Ответ', 'Помощь', 'Хватит'])
 
     session.isFirstQuestion = false
