@@ -78,13 +78,17 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
         if (similarity > 0.65) {
             responseText = keyset('Верно', {
                 answer: changeBrackets(session.currentQuestion.answer.trim()),
-                comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
+                comment: session.currentQuestion?.comments
+                ? `\n\n${changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))}`
+                : ''
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
         } else if (similarity <= 0.65 && similarity > 0.3){
             responseText = keyset('Вроде верно', {
                 answer: changeBrackets(session.currentQuestion.answer.trim()),
-                comment: changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))
+                comment: session.currentQuestion?.comments
+                ? `\n\n${changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))}`
+                : ''
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
         } else {
