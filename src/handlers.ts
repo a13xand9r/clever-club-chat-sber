@@ -22,12 +22,14 @@ export const startAppHandler: ScenarioHandler = ({ req, res, session }) => {
     res.setAutoListening(true)
 }
 
-export const noMatchHandler: ScenarioHandler = ({ req, res }) => {
+export const noMatchHandler: ScenarioHandler = ({ req, res, session }, dispatch) => {
     const keyset = req.i18n(dictionary)
     const responseText = keyset('404')
     res.appendBubble(responseText)
     res.setPronounceText(responseText)
     res.appendSuggestions(['Хватит'])
+
+    if (session.currentQuestion && dispatch) dispatch(['AnswerWait'])
 }
 export const helpHandler: ScenarioHandler = ({ req, res }, dispatch) => {
     const keyset = req.i18n(dictionary)
@@ -46,9 +48,7 @@ export const questionHandler: ScenarioHandler = async ({ req, res, session }, di
     if (!session.questionsList || !session.questionsList.length){
         const { questions } = await getQuestions(getRandomNumberFromRange(1, 12050), 10)
         session.questionsList = questions
-        console.log('session length Before', session.questionsList?.length, '\n')
         deleteNotValidQuestions(session)
-        console.log('session length After', session.questionsList?.length, '\n')
         session.currentQuestion = session.questionsList[0]
     }
     console.log('currentQuestion', session.currentQuestion)
@@ -66,10 +66,6 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
     const keyset = req.i18n(dictionary)
     let responseText = ''
 
-    console.log('human_normalized_text',req.message.human_normalized_text)
-    console.log('asr_normalized_message',req.message.asr_normalized_message)
-    console.log('normalized_text',req.message.normalized_text)
-
     const similarity = checkAnswerSimilarity(req, session.currentQuestion?.answer as string)
 
     console.log('similarity', similarity)
@@ -83,6 +79,8 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
                 : ''
             })
             res.appendSuggestions(['Следующий', 'Хватит'])
+            res.setPronounceText(responseText)
+            res.appendBubble(responseText)
         } else if (similarity <= 0.65 && similarity > 0.3){
             responseText = keyset('Вроде верно', {
                 answer: changeBrackets(session.currentQuestion.answer.trim()),
@@ -90,15 +88,17 @@ export const answerHandler: ScenarioHandler = ({ req, res, session }, dispatch) 
                 ? `\n\n${changeBrackets(deleteEnters(session.currentQuestion?.comments ? session.currentQuestion?.comments.trim() : ''))}`
                 : ''
             })
+            res.setPronounceText(responseText)
+            res.appendBubble(responseText)
             res.appendSuggestions(['Следующий', 'Хватит'])
         } else {
             responseText = keyset('Неверно')
             res.appendSuggestions(['Сдаюсь', 'Хватит'])
+            res.setPronounceText(responseText)
+            res.appendBubble(responseText)
             dispatch && dispatch(['AnswerWait'])
         }
     }
-    res.setPronounceText(responseText)
-    res.appendBubble(responseText)
 }
 
 export const rightAnswerHandler: ScenarioHandler = ({ req, res, session }, dispatch) => {
