@@ -19,6 +19,13 @@ export const deleteNotValidQuestions = (session: ScenarioSession) => {
                 item.question.includes('jpg') ||
                 item.question.includes('gif') ||
                 item.question.includes('1. ') ||
+                item.question.includes('3. ') ||
+                item.question.includes('5. ') ||
+                item.question.includes('7. ') ||
+                item.question.includes('9. ') ||
+                item.question.includes('10. ') ||
+                item.question.includes('20. ') ||
+                item.question.includes('30. ') ||
                 item.question.includes('[') ||
                 item.question.includes(']')
             ) {
